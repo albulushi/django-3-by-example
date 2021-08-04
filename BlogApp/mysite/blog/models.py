@@ -2,9 +2,10 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
+from taggit.managers import TaggableManager
+
 
 # Create your models here.
-
 class PublishedManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(status='published')
@@ -39,6 +40,9 @@ class Post(models.Model):
     objects = models.Manager() # the default manager.
     published = PublishedManager() # Our custom manager.
     drafted = DraftedManager() # our second custom manager.
+
+    # defining tags to add retrieve remove tags from post objects
+    tags = TaggableManager()
 
     class Meta:
         ordering = ( '-publish',)
